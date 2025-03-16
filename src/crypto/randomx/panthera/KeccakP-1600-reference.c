@@ -232,7 +232,7 @@ void KeccakP1600_Permute_12rounds(void *state)
 #endif
 }
 
-void KeccakP1600_Permute_24rounds(void *state)
+void KeccakP1600_Permute_24rounds_reference(void *state)
 {
 #if (PLATFORM_BYTE_ORDER != IS_LITTLE_ENDIAN)
     tKeccakLane stateAsWords[1600/64];

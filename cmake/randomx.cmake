@@ -45,9 +45,28 @@ if (WITH_RANDOMX)
 		src/crypto/randomx/panthera/sha256.c
 		src/crypto/randomx/panthera/KangarooTwelve.c
 		src/crypto/randomx/panthera/KeccakP-1600-reference.c
+		src/crypto/randomx/panthera/KeccakP-1600-optimized.c
 		src/crypto/randomx/panthera/KeccakSpongeWidth1600.c
 		src/crypto/randomx/panthera/yespower-opt.c
     )
+
+    # KeccakP-1600-avx2
+    if (CMAKE_C_COMPILER_ID MATCHES GNU OR CMAKE_C_COMPILER_ID MATCHES Clang)
+        set_source_files_properties(src/crypto/randomx/panthera/KeccakP-1600-avx2.c PROPERTIES COMPILE_FLAGS -mavx2)
+        list(APPEND SOURCES_CRYPTO src/crypto/randomx/panthera/KeccakP-1600-avx2.c)
+    elseif (CMAKE_C_COMPILER_ID MATCHES MSVC)
+        set_source_files_properties(src/crypto/randomx/panthera/KeccakP-1600-avx2.c PROPERTIES COMPILE_FLAGS /arch:AVX2)
+        list(APPEND SOURCES_CRYPTO src/crypto/randomx/panthera/KeccakP-1600-avx2.c)
+    endif()
+
+    # KeccakP-1600-avx512
+    if (CMAKE_C_COMPILER_ID MATCHES GNU OR CMAKE_C_COMPILER_ID MATCHES Clang)
+        set_source_files_properties(src/crypto/randomx/panthera/KeccakP-1600-avx512.c PROPERTIES COMPILE_FLAGS "-mavx512f -mavx512dq -mavx512bw -mavx512vl")
+        list(APPEND SOURCES_CRYPTO src/crypto/randomx/panthera/KeccakP-1600-avx512.c)
+    elseif (CMAKE_C_COMPILER_ID MATCHES MSVC)
+        set_source_files_properties(src/crypto/randomx/panthera/KeccakP-1600-avx512.c PROPERTIES COMPILE_FLAGS /arch:AVX512)
+        list(APPEND SOURCES_CRYPTO src/crypto/randomx/panthera/KeccakP-1600-avx512.c)
+    endif()
 
     if (CMAKE_C_COMPILER_ID MATCHES MSVC)
         enable_language(ASM_MASM)
