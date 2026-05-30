@@ -1,0 +1,11 @@
+.git
+build
+cmake-build-debug
+CMakeLists.txt.user
+.idea
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe

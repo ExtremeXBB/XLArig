@@ -78,6 +78,32 @@ Misc:
       --export-topology         export hwloc topology to a XML file and exit
 ```
 
+
+## Docker
+
+This repository includes a single multi-stage `Dockerfile` that can build runtime images for `linux/amd64`, `linux/arm/v7` (armhf), and `linux/arm64`. BuildKit/Buildx exposes the selected platform to the Dockerfile so the CMake `ARM_TARGET` option is set automatically for ARMv7 and ARMv8 builds.
+
+Build the local host architecture image:
+
+```bash
+docker build -t xlarig:local .
+```
+
+Build and push a multi-architecture image:
+
+```bash
+docker buildx build \
+  --platform linux/amd64,linux/arm/v7,linux/arm64 \
+  -t your-registry/xlarig:latest \
+  --push .
+```
+
+Run with the bundled default configuration file, or mount your own configuration over `/etc/xlarig/config.json`:
+
+```bash
+docker run --rm -v "$PWD/src/config.json:/etc/xlarig/config.json:ro" xlarig:local
+```
+
 ## Donations
 Since the donation mining in XLArig can be turned off, if you wish to help the original creators or the Scala Project team, you can donate with one of the addresses below.
 
